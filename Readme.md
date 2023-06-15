@@ -1,11 +1,11 @@
-## trc-market-data-client-sdk:1.0.0
+## trc-market-data-client-sdk:1.0.1 Sample Application
 
-This sdk will provide streaming connectivity with mdaq trc market data.
+This is a sample application of using trc-market-data-client-sdk:1.0.2
 
 ### Dependencies
 
 1. java 11 sdk
-2. trc-market-data-client-sdk:1.0.0
+2. trc-market-data-client-sdk:1.0.2
 3. com.opencsv:opencsv:5.1
 
 ### Subscribing to fx market data
@@ -14,17 +14,23 @@ This sdk will provide streaming connectivity with mdaq trc market data.
 
    ```java
    public class MarketDataListener implements MarketDataCallback {
-     @Override
-     public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber, SubscriptionError subscriptionError, String s) {
-        System.out.printf("onSubscriptionFailure. ErrorCode:%s. Message:%s", subscriptionError, s);
-     }
+        @Override
+        public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber, SubscriptionError subscriptionError,
+                                          String message) {
 
-     @Override
-     public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, InstrumentSnapshot instrumentSnapshot) {
-        System.out.println("On Data :" + instrumentSnapshot);
-     }
+            System.out.printf("onSubscriptionFailure. ErrorCode:%s. Message:%s", subscriptionError, message);
+        }
+
+        @Override
+        public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber,
+                                         InstrumentSnapshot instrumentSnapshot) {
+
+            System.out.println("On Data :" + instrumentSnapshot);
+        }
    }
    ```
+
+<div style="page-break-after: always;"></div>
 
 2. Implement connection listener
 
@@ -36,12 +42,14 @@ This sdk will provide streaming connectivity with mdaq trc market data.
        }
 
        @Override
-       public void onDisconnect(MarketDataSubscriber marketDataSubscriber, ConnectionError connectionError, String s) {
+       public void onDisconnect(MarketDataSubscriber marketDataSubscriber, ConnectionError connectionError,
+                                String message) {
 
        }
 
        @Override
-       public void onConnectionFailure(MarketDataSubscriber marketDataSubscriber, SubscriptionError subscriptionError, String s) {
+       public void onConnectionFailure(MarketDataSubscriber marketDataSubscriber, ConnectionError connectionError,
+                                       String message) {
        }
    }
    ```
@@ -58,9 +66,14 @@ This sdk will provide streaming connectivity with mdaq trc market data.
    }
    ```
 4. Create subscriber
+
    ```java
    MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
+
    ```
+
+<div style="page-break-after: always;"></div>
+
 5. Connect
    ```java
    SslConfig sslConfig = new SslConfig("test-ks-path", "test-ks-pw", "test-ts-path", "test-ts-pw");
@@ -69,13 +82,11 @@ This sdk will provide streaming connectivity with mdaq trc market data.
    > Since this is a test client all connection parameters will be ignored. Details about these parameters will be shared in the next release
 6. Listen for data
    ```
-   On Data :InstrumentSnapshot{timestamp=2023-05-31T04:27:21.353967Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.29, quantity=1}, askPricePoint=PricePoint{price=153.37, quantity=1}}
-   On Data :InstrumentSnapshot{timestamp=2023-05-31T04:27:22.308938Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.20, quantity=1}, askPricePoint=PricePoint{price=153.36, quantity=1}}
-   On Data :InstrumentSnapshot{timestamp=2023-05-31T04:27:23.308795Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.09, quantity=1}, askPricePoint=PricePoint{price=153.37, quantity=1}}
-   On Data :InstrumentSnapshot{timestamp=2023-05-31T04:27:24.308521Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.17, quantity=1}, askPricePoint=PricePoint{price=153.58, quantity=1}}
-   On Data :InstrumentSnapshot{timestamp=2023-05-31T04:27:25.308810Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.25, quantity=1}, askPricePoint=PricePoint{price=153.54, quantity=1}}
+   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:04.095054Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.601, quantity=1000000}, askPricePoint=PricePoint{price=153.611, quantity=1000000}}
+   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:05.022826Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.689, quantity=1000000}, askPricePoint=PricePoint{price=153.709, quantity=1000000}}
+   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:06.022660Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.613, quantity=1000000}, askPricePoint=PricePoint{price=153.621, quantity=1000000}}
+   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:07.022487Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.572, quantity=1000000}, askPricePoint=PricePoint{price=153.591, quantity=1000000}}
    ```
-   <div style="page-break-after: always;"></div>
 
 ### Supported currency pairs
 
@@ -85,7 +96,7 @@ This sdk will provide streaming connectivity with mdaq trc market data.
 - CADJPY
 - NZDJPY
 - SGDJPY
-- KRWJPY
+- EURJPY
 - CNHJPY
 - HKDJPY
 - USDJPY

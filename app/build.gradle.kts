@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation(files("../libs/trc-market-data-client-sdk-1.0.0.jar"))
+    implementation(files("../libs/trc-market-data-client-sdk-1.0.2.jar"))
     implementation("com.opencsv:opencsv:5.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
 
