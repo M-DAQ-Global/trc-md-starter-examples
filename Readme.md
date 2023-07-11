@@ -1,12 +1,11 @@
-## trc-market-data-client-sdk:1.0.1 Sample Application
+## trc-market-data-client-sdk:1.1.0-SNAPSHOT Sample Application
 
-This is a sample application of using trc-market-data-client-sdk:1.0.2
+This is a sample application of using trc-market-data-client-sdk:1.1.0-SNAPSHOT
 
 ### Dependencies
 
 1. java 11 sdk
-2. trc-market-data-client-sdk:1.0.2
-3. com.opencsv:opencsv:5.1
+2. trc-market-data-client-sdk:1.1.0-SNAPSHOT
 
 ### Subscribing to fx market data
 
@@ -76,10 +75,10 @@ This is a sample application of using trc-market-data-client-sdk:1.0.2
 
 5. Connect
    ```java
-   SslConfig sslConfig = new SslConfig("test-ks-path", "test-ks-pw", "test-ts-path", "test-ts-pw");
-   subscriber.connect("192.168.5.5", 23, "test-user", "test-pw", sslConfig, connectionListener);
+   SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
+   subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", sslConfig, connectionListener);
    ```
-   > Since this is a test client all connection parameters will be ignored. Details about these parameters will be shared in the next release
+   > Since this is a test client username and password will be ignored. Details about these parameters will be shared in the next release
 6. Listen for data
    ```
    On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:04.095054Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.601, quantity=1000000}, askPricePoint=PricePoint{price=153.611, quantity=1000000}}

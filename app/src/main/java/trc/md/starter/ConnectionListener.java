@@ -10,7 +10,7 @@ public class ConnectionListener implements ConnectionCallback {
     public void onConnect(MarketDataSubscriber marketDataSubscriber) {
         System.out.println("OnConnect");
         MarketDataListener marketDataListener = new MarketDataListener();
-        marketDataSubscriber.subscribeFx("CHFJPY", marketDataListener);
+        marketDataSubscriber.subscribeFx("USDSGD", marketDataListener);
 
 //        for (String instrument : "USDJPY,HKDJPY,GBPJPY,CHFJPY,AUDJPY,CADJPY,NZDJPY,SGDJPY,EURJPY,CNHJPY".split(",")) {
 //            marketDataSubscriber.subscribeFx(instrument, marketDataListener);

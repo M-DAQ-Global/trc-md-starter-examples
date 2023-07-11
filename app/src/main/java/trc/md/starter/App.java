@@ -8,11 +8,16 @@ import com.mdaq.trc.marketdata.client.MarketDataSubscriberFactory;
 import com.mdaq.trc.marketdata.client.model.SslConfig;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         ConnectionListener connectionListener = new ConnectionListener();
         MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
-        SslConfig sslConfig = new SslConfig("test-ks-path", "test-ks-pw", "test-ts-path", "test-ts-pw");
-        subscriber.connect("192.168.5.5", 23, "test-user", "test-pw", sslConfig, connectionListener);
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+
+        //demo purpose only. Proper configuration should be used to provide truststore path.
+        String trustStorePath = classLoader.getResource("client.truststore").getPath();
+
+        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
+        subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", sslConfig, connectionListener);
 
         // Disconnect on application close
         // subscriber.disconnect();
