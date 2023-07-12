@@ -11,13 +11,12 @@ public class App {
     public static void main(String[] args)  {
         ConnectionListener connectionListener = new ConnectionListener();
         MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
-        //demo purpose only. Proper configuration should be used to provide truststore path.
-        String trustStorePath = classLoader.getResource("client.truststore").getPath();
+        String trustStorePath = "app/src/main/resources/client-uat.truststore";
 
-        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
-        subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", sslConfig, connectionListener);
+//        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
+        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
+        subscriber.connect("13.250.15.157", 55100, "test-user", "test-pw", sslConfig, connectionListener);
 
         // Disconnect on application close
         // subscriber.disconnect();

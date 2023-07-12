@@ -71,15 +71,20 @@ This is a sample application of using trc-market-data-client-sdk:1.1.0-SNAPSHOT
 
    ```
 
+5. Update trustStorePath path with client.trustStore path
+   ```
+   String trustStorePath = "app/src/main/resources/client.truststore";
+   ```
+   
 <div style="page-break-after: always;"></div>
 
-5. Connect
+7. Connect
    ```java
    SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
    subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", sslConfig, connectionListener);
    ```
    > Since this is a test client username and password will be ignored. Details about these parameters will be shared in the next release
-6. Listen for data
+8. Listen for data
    ```
    On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:04.095054Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.601, quantity=1000000}, askPricePoint=PricePoint{price=153.611, quantity=1000000}}
    On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:05.022826Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.689, quantity=1000000}, askPricePoint=PricePoint{price=153.709, quantity=1000000}}

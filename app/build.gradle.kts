@@ -20,8 +20,14 @@ repositories {
 }
 
 dependencies {
-    implementation(files("../libs/trc-market-data-client-sdk-1.1.0-SNAPSHOT.jar"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    implementation(files("../libs/trc-market-data-client-sdk-1.2.0-SNAPSHOT.jar"))
+    implementation("io.netty:netty-all:4.1.93.Final")
+    implementation("org.agrona:agrona:1.18.1")
+    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation("org.apache.logging.log4j:log4j-api:2.20.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
+    implementation("com.opencsv:opencsv:5.1")
+    testImplementation("org.slf4j:slf4j-api:1.7.32")
 
 }
 
