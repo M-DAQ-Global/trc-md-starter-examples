@@ -1,30 +1,32 @@
 ## trc-market-data-client-sdk:1.1.0-SNAPSHOT Sample Application
 
-This is a sample application of using trc-market-data-client-sdk:1.1.0-SNAPSHOT
+This is a sample application of using trc-market-data-client-sdk:1.2.0-SNAPSHOT
 
 ### Dependencies
 
 1. java 11 sdk
-2. trc-market-data-client-sdk:1.1.0-SNAPSHOT
+2. trc-market-data-client-sdk:1.2.0-SNAPSHOT
 
 ### Subscribing to fx market data
 
 1. Create market data listener
 
    ```java
-   public class MarketDataListener implements MarketDataCallback {
+   public class MarketDataListener implements MarketDataCallback {   
         @Override
-        public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber, SubscriptionError subscriptionError,
-                                          String message) {
-
-            System.out.printf("onSubscriptionFailure. ErrorCode:%s. Message:%s", subscriptionError, message);
+        public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, FxInstrumentSnapshot fxInstrumentSnapshot) {
+            System.out.println("On Data :" + fxInstrumentSnapshot);
         }
-
+   
         @Override
-        public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber,
-                                         InstrumentSnapshot instrumentSnapshot) {
-
-            System.out.println("On Data :" + instrumentSnapshot);
+        public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber,
+                                          SubscriptionDetails subscriptionDetails,
+                                          SubscriptionError subscriptionError,
+                                          String s) {
+            System.out.printf("onSubscriptionFailure. InstrumentId:%s. ErrorCode:%s. Message:%s",
+                    subscriptionDetails.getSubscribedInstrument(),
+                    subscriptionError,
+                    s);
         }
    }
    ```
