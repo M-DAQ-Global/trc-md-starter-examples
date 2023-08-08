@@ -1,30 +1,50 @@
-## trc-market-data-client-sdk:1.1.0-SNAPSHOT Sample Application
+## trc-market-data-client-sdk:1.2.0-SNAPSHOT Sample Application
 
-This is a sample application of using trc-market-data-client-sdk:1.1.0-SNAPSHOT
+This is a sample application of using trc-market-data-client-sdk:1.2.0-SNAPSHOT
 
 ### Dependencies
 
 1. java 11 sdk
-2. trc-market-data-client-sdk:1.1.0-SNAPSHOT
+2. trc-market-data-client-sdk:1.2.0-SNAPSHOT
+
+<br/>
+
+### trc-market-data-client-sdk
+#### Changelog
+##### Version 1.2.0
+* **Added**:
+  * `FxInstrumentSnapshot` was introduced in place of `InstrumentSnapshot` to better represent the type of data this structure it's carrying.
+  * `MarketDataCallback.onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, FxInstrumentSnapshot instrumentSnapshot)` to replace the other callback by the same name.
+  * `MarketDataCallback.onSubscriptionFailure(MarketDataSubscriber, SubscriptionDetails, SubscriptionError, String)` to replace the other callback by the same name. The parameter `SubscriptionDetails` was added to be able to identify the subscription that failed.
+<br/><br/>
+* **Deprecated**: <br/>
+    > The following two callbacks will be removed in the next release. However, for backward compatibility, they will still be invoked during this release.
+    * `MarketDataCallback.onSubscriptionFailure(MarketDataSubscriber, SubscriptionError, String)` method. Please override the other callback by the same name (mentioned above) instead.
+    * `MarketDataCallback.onInstrumentSnapshot(MarketDataSubscriber, InstrumentSnapshot)` method. Please override the other callback by the same name (mentioned above) instead.
+    * `InstrumentSnapshot` class is deprecated and is replaced by `FxInstrumentSnapshot`.
+
+<br/>
 
 ### Subscribing to fx market data
 
 1. Create market data listener
 
    ```java
-   public class MarketDataListener implements MarketDataCallback {
+   public class MarketDataListener implements MarketDataCallback {   
         @Override
-        public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber, SubscriptionError subscriptionError,
-                                          String message) {
-
-            System.out.printf("onSubscriptionFailure. ErrorCode:%s. Message:%s", subscriptionError, message);
+        public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, FxInstrumentSnapshot fxInstrumentSnapshot) {
+            System.out.println("On Data :" + fxInstrumentSnapshot);
         }
-
+   
         @Override
-        public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber,
-                                         InstrumentSnapshot instrumentSnapshot) {
-
-            System.out.println("On Data :" + instrumentSnapshot);
+        public void onSubscriptionFailure(MarketDataSubscriber marketDataSubscriber,
+                                          SubscriptionDetails subscriptionDetails,
+                                          SubscriptionError subscriptionError,
+                                          String s) {
+            System.out.printf("onSubscriptionFailure. InstrumentId:%s. ErrorCode:%s. Message:%s",
+                    subscriptionDetails.getSubscribedInstrument(),
+                    subscriptionError,
+                    s);
         }
    }
    ```
