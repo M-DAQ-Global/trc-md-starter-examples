@@ -5,7 +5,9 @@ package trc.md.starter;
 
 import com.mdaq.trc.marketdata.client.MarketDataSubscriber;
 import com.mdaq.trc.marketdata.client.MarketDataSubscriberFactory;
-import com.mdaq.trc.marketdata.client.model.SslConfig;
+import com.mdaq.trc.marketdata.client.common.config.RetryConfig;
+import com.mdaq.trc.marketdata.client.common.config.SslConfig;
+import com.mdaq.trc.marketdata.client.common.config.SubscriberConfig;
 
 public class App {
     public static void main(String[] args)  {
@@ -14,8 +16,14 @@ public class App {
 
         String trustStorePath = "app/src/main/resources/client-uat.truststore";
 
-        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
-        subscriber.connect("13.250.15.157", 55100, "test-user", "test-pw", sslConfig, connectionListener);
+        final var sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
+        final var retryConfig = RetryConfig.builder().maxAttempts(-1).intervalMillis(5000).build() /* or RetryConfig.DISABLED to disable */;
+        final var subscriberConfig = SubscriberConfig.builder().sslConfig(sslConfig).retryConfig(retryConfig).build();
+
+        // Deprecated API
+        // subscriber.connect("localhost", 55100, "test-user", "test-pw", sslConfig, connectionListener);
+
+        subscriber.connect("localhost", 55100, "test-user", "test-pw", subscriberConfig, connectionListener);
 
         // Disconnect on application close
         // subscriber.disconnect();
