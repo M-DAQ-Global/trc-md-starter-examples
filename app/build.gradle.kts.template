@@ -15,16 +15,12 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 java.targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
+    // Use Maven Central for resolving dependencies.
     mavenCentral()
-    maven {
-        url = uri("https://artifactory.sg.m-daq.net/artifactory/repo")
-    }
 }
 
-version = file("${project.rootDir}/version.txt").readText().trim()
-
 dependencies {
-    implementation ("com.mdaq.trc:trc-market-data-client-sdk:${version}")
+    implementation(files("libs/trc-market-data-client-sdk-@version@.jar"))
     implementation("io.netty:netty-all:4.1.93.Final")
     implementation("org.agrona:agrona:1.18.1")
     implementation("org.slf4j:slf4j-api:1.7.32")
