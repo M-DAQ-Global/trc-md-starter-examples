@@ -7,8 +7,6 @@ This is a sample application of using trc-market-data-client-sdk
 1. java 11 sdk
 2. trc-market-data-client-sdk
 
-<br/>
-
 ### Subscribing to fx market data
 
 1. Create market data listener
@@ -32,8 +30,6 @@ This is a sample application of using trc-market-data-client-sdk
         }
    }
    ```
-
-<div style="page-break-after: always;"></div>
 
 2. Implement connection listener
 
@@ -79,8 +75,8 @@ This is a sample application of using trc-market-data-client-sdk
    ```java
    MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
    ```
-   
-<div style="page-break-after: always;"></div>
+   > For GeneratedFxData subscription use  
+   > MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createGeneratedDataSubscriber();
 
 5. Update trustStorePath path with client.trustStore path
    ```
@@ -108,8 +104,6 @@ This is a sample application of using trc-market-data-client-sdk
    On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:07.022487Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.572, quantity=1000000}, askPricePoint=PricePoint{price=153.591, quantity=1000000}}
    ```
 
-<div style="page-break-after: always;"></div>
-
 ### Supported currency pairs
 
 - GBPJPY
@@ -122,8 +116,8 @@ This is a sample application of using trc-market-data-client-sdk
 - CNHJPY
 - HKDJPY
 - USDJPY
-  
-<br/><br/>
+- THBJPY
+
 
 ### Changelog
 #### Version 1.3.0

@@ -14,6 +14,9 @@ public class App {
         ConnectionListener connectionListener = new ConnectionListener();
         MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
 
+//        For generatedMarketData
+//        MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createGeneratedDataSubscriber();
+
         String trustStorePath = "app/src/main/resources/client-uat.truststore";
 
         final var sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
