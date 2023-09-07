@@ -19,6 +19,11 @@ public class ConnectionListener implements ConnectionCallback {
     }
 
     @Override
+    public void onReconnect(MarketDataSubscriber marketDataSubscriber) {
+        System.out.println("OnReconnect");
+    }
+
+    @Override
     public void onDisconnect(MarketDataSubscriber marketDataSubscriber, ConnectionError connectionError, String message) {
 
     }
