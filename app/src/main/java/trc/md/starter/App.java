@@ -14,7 +14,6 @@ public class App {
 
         String trustStorePath = "app/src/main/resources/client-uat.truststore";
 
-//        SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
         SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
         subscriber.connect("13.250.15.157", 55100, "test-user", "test-pw", sslConfig, connectionListener);
 
