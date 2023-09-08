@@ -3,7 +3,6 @@ package trc.md.starter;
 import com.mdaq.trc.marketdata.client.ConnectionCallback;
 import com.mdaq.trc.marketdata.client.MarketDataSubscriber;
 import com.mdaq.trc.marketdata.client.enums.ConnectionError;
-import com.mdaq.trc.marketdata.client.enums.SubscriptionError;
 
 public class ConnectionListener implements ConnectionCallback {
     @Override
@@ -12,7 +11,7 @@ public class ConnectionListener implements ConnectionCallback {
         MarketDataListener marketDataListener = new MarketDataListener();
         marketDataSubscriber.subscribeFx("USDJPY", marketDataListener);
 
-//        for (String instrument : "USDJPY,HKDJPY,GBPJPY,CHFJPY,AUDJPY,CADJPY,NZDJPY,SGDJPY,EURJPY,CNHJPY".split(",")) {
+//        for (String instrument : "USDJPY,HKDJPY,GBPJPY,CHFJPY,AUDJPY,CADJPY,NZDJPY,SGDJPY,EURJPY,CNHJPY,THBJPY".split(",")) {
 //            marketDataSubscriber.subscribeFx(instrument, marketDataListener);
 //        }
 
