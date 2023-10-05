@@ -17,9 +17,10 @@ public class App {
 //        For generatedMarketData
 //        MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createGeneratedDataSubscriber();
 
-        String trustStorePath = "app/src/main/resources/client-uat.truststore";
+        String keyStorePath = "app/src/main/resources/trc-md-gw.test-client-dev.jks";
+        String trustStorePath = "app/src/main/resources/trc-md-gw.test-client-dev.truststore";
 
-        final var sslConfig = new SslConfig(null, null, trustStorePath, "dslkkew77494*eee");
+        final var sslConfig = new SslConfig(keyStorePath, "dslkkew77494*eee", trustStorePath, "dslkkew77494*eee");
         final var retryConfig = RetryConfig.builder().maxAttempts(-1).intervalMillis(5000).build() /* or RetryConfig.DISABLED to disable */;
         final var subscriberConfig = SubscriberConfig.builder().sslConfig(sslConfig).retryConfig(retryConfig).build();
 
