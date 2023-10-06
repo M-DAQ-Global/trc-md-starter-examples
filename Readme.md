@@ -118,6 +118,40 @@ This is a sample application of using trc-market-data-client-sdk
 - USDJPY
 - THBJPY
 
+<br/><br/>
+
+### Setting up a Keystore and a Trustore
+#### 1. Generating the Private Key
+Replace the placeholder values with actual values that match your requirements. Make sure to note down the password; you will need it when configuring the SDK.
+```
+keytool -genkeypair -alias <YourAlias> -keyalg RSA -keysize 2048 -keystore <YourKeystoreName>.jks -dname "CN=<ClientName>, OU=<Department>, O=<Organization>, L=<City>, ST=<State>, C=<Country>"
+```
+
+#### 2. Create the CSR (Certificate Signing Request)
+Generate the CSR and send the resulting CSR file to us. Once we've signed the request, we will send back the signed certificate. This will allow communication with our servers.
+```
+keytool -certreq -alias <YourAlias> -keystore <YourKeystoreName>.jks -file <YourCSRName>.csr
+```
+
+#### 3. Import the Signed Certificate into the Keystore
+Import the signed certificate, which we provided, into the keystore you created in the first step.
+```
+keytool -importcert -alias <YourAlias> -keystore <YourKeystoreName>.jks -file <ReceivedSignedCertificate>.crt
+```
+
+#### 4. Setup the trusstore
+You'll need to configure a truststore containing our gateway's public certificate. We might either share the public certificate with you or provide an already generated truststore containing the public certificate.
+
+##### A. If we provide you with the server certificate
+Import this certificate into your truststore. Again, remember to note down the password; you'll need it when configuring the SDK.
+```
+keytool -importcert -alias <ServerAlias> -keystore <TruststoreName>.jks -file <ServerCertificateName>.crt
+```
+
+##### B. If we provide you with the truststore
+Use it directly, using the password we provide.
+
+<br/>
 
 ### Changelog
 #### Version 1.3.0
