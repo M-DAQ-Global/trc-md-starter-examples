@@ -154,6 +154,9 @@ Use it directly, using the password we provide.
 <br/>
 
 ### Changelog
+#### Version 1.5.0
+* **Added**:
+    * Replay subscriptions if statuses are not finalised(Subscribed/Rejected).
 #### Version 1.3.0
 * **Added**:
   * `MarketDataSubscriber.connect(host, port, username, password, SubscriberConfig, callback)` which will provide control over the reconnect functionality, or any other subscriber related functionality to be added in the future.
