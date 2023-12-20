@@ -15,7 +15,12 @@ This is a sample application of using trc-market-data-client-sdk
    public class MarketDataListener implements MarketDataCallback {   
         @Override
         public void onInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, FxInstrumentSnapshot fxInstrumentSnapshot) {
-            System.out.println("On Data :" + fxInstrumentSnapshot);
+            System.out.println("On FX Data :" + fxInstrumentSnapshot);
+        }
+   
+        @Override
+        public void onEquityInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, EquityInstrumentSnapshot equityInstrumentSnapshot) {
+            System.out.println("Received equity Data :" + equityInstrumentSnapshot);
         }
    
         @Override
@@ -59,7 +64,7 @@ This is a sample application of using trc-market-data-client-sdk
    }
    ```
 
-3. Subscribe for currency pairs in "onConnect" callback
+3. Subscribe for currency pairs/authorized equities in "onConnect" callback
    ```java
    public class ConnectionListener implements ConnectionCallback {
      @Override
@@ -67,12 +72,15 @@ This is a sample application of using trc-market-data-client-sdk
         System.out.println("OnConnect");
         MarketDataListener marketDataListener = new MarketDataListener();
         marketDataSubscriber.subscribeFx("CHFJPY", marketDataListener);
+        marketDataSubscriber.subscribeEquity("SAWAD", "JPY", marketDataListener);
+        marketDataSubscriber.subscribeEquity("OSP", "GBP", marketDataListener);
      }
    }
    ```
+
 4. Create subscriber
 
-   ```java
+   ```
    MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
    ```
    > For GeneratedFxData subscription use  
@@ -83,8 +91,8 @@ This is a sample application of using trc-market-data-client-sdk
    String trustStorePath = "app/src/main/resources/client.truststore";
    ```   
 
-7. Connect
-   ```java
+6. Connect
+   ```
    SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
 
    RetryConfig retryConfig = RetryConfig.builder().maxAttempts(-1).intervalMillis(5000).build());
@@ -95,13 +103,11 @@ This is a sample application of using trc-market-data-client-sdk
    
    subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", subscriberConfig, connectionListener);
    ```
-   > Since this is a test client username and password will be ignored. Details about these parameters will be shared in the next release
-8. Listen for data
+   > Since this is a test client username and password will be ignored.
+7. Listen for data
    ```
-   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:04.095054Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.601, quantity=1000000}, askPricePoint=PricePoint{price=153.611, quantity=1000000}}
-   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:05.022826Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.689, quantity=1000000}, askPricePoint=PricePoint{price=153.709, quantity=1000000}}
-   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:06.022660Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.613, quantity=1000000}, askPricePoint=PricePoint{price=153.621, quantity=1000000}}
-   On Data :InstrumentSnapshot{timestamp=2023-06-15T07:44:07.022487Z, instrumentId='CHFJPY', bidPricePoint=PricePoint{price=153.572, quantity=1000000}, askPricePoint=PricePoint{price=153.591, quantity=1000000}}
+    Received FX Data :FxInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:46:19.940Z, instrumentId=USDJPY, symbol=USD/JPY, askPricePoint=PricePoint(price=143.459, quantity=100000.0), bidPricePoint=PricePoint(price=143.48, quantity=100000.0)), tenor=SPOT)
+    Received equity Data :EquityInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:45:52.722Z, instrumentId=V03.SI, symbol=V03.SI, askPricePoint=PricePoint(price=2414.17, quantity=null), bidPricePoint=PricePoint(price=2410.81, quantity=null)), subscriberCcy=JPY)
    ```
 
 ### Supported currency pairs
@@ -118,9 +124,14 @@ This is a sample application of using trc-market-data-client-sdk
 - USDJPY
 - THBJPY
 
+### Authorized equities for streaming
+
+- To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
+- The availability of equity streaming depends on market open/close status.
+
 <br/><br/>
 
-### Setting up a Keystore and a Trustore
+### Setting up a Keystore and a truststore
 #### 1. Generating the Private Key
 Replace the placeholder values with actual values that match your requirements. Make sure to note down the password; you will need it when configuring the SDK.
 ```
@@ -139,7 +150,7 @@ Import the signed certificate, which we provided, into the keystore you created 
 keytool -importcert -alias <YourAlias> -keystore <YourKeystoreName>.jks -file <ReceivedSignedCertificate>.crt
 ```
 
-#### 4. Setup the trusstore
+#### 4. Set up the truststore
 You'll need to configure a truststore containing our gateway's public certificate. We might either share the public certificate with you or provide an already generated truststore containing the public certificate.
 
 ##### A. If we provide you with the server certificate
@@ -154,6 +165,11 @@ Use it directly, using the password we provide.
 <br/>
 
 ### Changelog
+#### Version 1.6.0
+* **Added**:
+    * Add equity streaming capability
+    * Introduced `EquityInstrumentSnapshot` to represent data obtained from equity streaming
+    * Improved logging to contain more details
 #### Version 1.5.0
 * **Added**:
     * Replay subscriptions if statuses are not finalised(Subscribed/Rejected).
