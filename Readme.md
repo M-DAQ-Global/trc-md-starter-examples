@@ -165,6 +165,10 @@ Use it directly, using the password we provide.
 <br/>
 
 ### Changelog
+#### Version 1.7.0
+* **Added**:
+    * Handle duplicate subscription requests
+    * Unsubscribe FX upon disconnect/logout
 #### Version 1.6.0
 * **Added**:
     * Add equity streaming capability
