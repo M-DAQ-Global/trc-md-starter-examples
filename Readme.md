@@ -19,6 +19,11 @@ This is a sample application of using trc-market-data-client-sdk
         }
    
         @Override
+        public void onTieredFxInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, TieredFxInstrumentSnapshot tieredFxInstrumentSnapshot) {
+            System.out.println("On Tiered FX Data :" + tieredFxInstrumentSnapshot);
+        }
+   
+        @Override
         public void onEquityInstrumentSnapshot(MarketDataSubscriber marketDataSubscriber, EquityInstrumentSnapshot equityInstrumentSnapshot) {
             System.out.println("Received equity Data :" + equityInstrumentSnapshot);
         }
@@ -70,10 +75,14 @@ This is a sample application of using trc-market-data-client-sdk
      @Override
      public void onConnect(MarketDataSubscriber marketDataSubscriber) {
         System.out.println("OnConnect");
+        //To subscribe for single tier pricing use following API
         MarketDataListener marketDataListener = new MarketDataListener();
         marketDataSubscriber.subscribeFx("CHFJPY", marketDataListener);
         marketDataSubscriber.subscribeEquity("SAWAD", "JPY", marketDataListener);
         marketDataSubscriber.subscribeEquity("OSP", "GBP", marketDataListener);
+   
+        // To subscribe for tiered pricing use following API
+        marketDataSubscriber.subscribeFx("CHFJPY", SubscriptionType.TIERED_TOB, marketDataListener);
      }
    }
    ```
@@ -108,6 +117,7 @@ This is a sample application of using trc-market-data-client-sdk
    ```
     Received FX Data :FxInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:46:19.940Z, instrumentId=USDJPY, symbol=USD/JPY, askPricePoint=PricePoint(price=143.459, quantity=100000.0), bidPricePoint=PricePoint(price=143.48, quantity=100000.0)), tenor=SPOT)
     Received equity Data :EquityInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:45:52.722Z, instrumentId=V03.SI, symbol=V03.SI, askPricePoint=PricePoint(price=2414.17, quantity=null), bidPricePoint=PricePoint(price=2410.81, quantity=null)), subscriberCcy=JPY)
+    Received Tiered FX Data :TieredFxInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2025-01-13T10:25:02.460Z, instrumentId=USDJPY, symbol=USD/JPY, askTiers=[PricePoint(price=157.270000, quantity=1000000.0), PricePoint(price=157.272000, quantity=3000000.0), PricePoint(price=157.274000, quantity=5000000.0)], bidTiers=[PricePoint(price=157.267000, quantity=1000000.0), PricePoint(price=157.265000, quantity=3000000.0), PricePoint(price=157.260000, quantity=5000000.0)], tenor=SPOT, fxSnapshotType=TRADABLE)
    ```
 
 ### Supported currency pairs
