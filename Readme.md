@@ -175,6 +175,9 @@ Use it directly, using the password we provide.
 <br/>
 
 ### Changelog
+#### Version 1.17.0
+* **Added**:
+    * Support to subscribe/unsubscribe to tiered FX data
 #### Version 1.7.0
 * **Added**:
     * Handle duplicate subscription requests
