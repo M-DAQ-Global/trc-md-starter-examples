@@ -18,6 +18,7 @@ stages:
   - build
   - scantist
   - publish
+  - sync_to_github
 
 build:
   stage: build
@@ -54,3 +55,23 @@ publish:
   artifacts:
     paths:
       - build/*.zip
+
+sync_to_github:
+  image: registry.m-daq.com/mdaq-docker-java11-helm-kubectl-gradle7
+  stage: sync_to_github
+  only:
+    - master
+    - tags
+  script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - cp $GITHUB_KEY ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - git config --global user.email "mdaq-techops-admin@m-daq.com"
+    - git config --global user.name "mdaq-techops-admin"
+    - git checkout master
+    - git rm --cached .gitlab-ci.yml
+    - git commit -m "$CI_COMMIT_MESSAGE" 
+    - git remote add github git@github.com:M-DAQ-Global/${CI_PROJECT_NAME}-examples.git
+    - git push github master:main --force
