@@ -6,6 +6,5 @@ build
 .idea
 /app/bin/
 dist
-
-# Ignore SSL certs
-/app/src/main/resources/certs
+**.jks
+**.truststore
