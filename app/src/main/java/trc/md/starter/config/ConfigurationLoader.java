@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class ConfigurationLoader {
 
-    private static final String CERTS_DIRECTORY = "app/src/main/resources/certs/";
+    private static final String CERTS_DIRECTORY = "app/src/main/resources/";
     private static final Properties properties = new Properties();
 
     // Load configuration properties
