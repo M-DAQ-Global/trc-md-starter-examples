@@ -12,7 +12,7 @@ This is a sample application of using trc-market-data-client-sdk
 1. Obtain valid SSL keystore and truststore files from MDAQ TRC and place those files under the directory 
    - `trc-md-starter/app/src/main/resources/certs`
 
-2. The application uses a centralized config.properties file for managing subscriber, retry, and SSL configurations. Below is a detailed guide on the available configurations:
+2. The application uses a centralized `config.properties` file for managing subscriber, retry, and SSL configurations. Below is a detailed guide on the available configurations:
    - `subscriber.url`: The hostname or IP address of the market data server.
    - `subscriber.port`: The port to connect to on the server.
    - `subscriber.username`: The username for authentication.
