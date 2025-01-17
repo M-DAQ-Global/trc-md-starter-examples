@@ -1,4 +1,4 @@
-## trc-market-data-client-sdk Sample Application
+## Sample Application for trc-market-data-client-sdk
 
 This is a sample application of using trc-market-data-client-sdk
 
