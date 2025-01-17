@@ -7,9 +7,24 @@ This is a sample application of using trc-market-data-client-sdk
 1. java 11 sdk
 2. trc-market-data-client-sdk
 
-### Subscribing to fx market data
+### Subscribing to market data
 
-1. Create market data listener
+1. Obtain valid SSL keystore and truststore files from MDAQ TRC and place those files under the directory 
+   - `trc-md-starter/app/src/main/resources/certs`
+
+2. The application uses a centralized config.properties file for managing subscriber, retry, and SSL configurations. Below is a detailed guide on the available configurations:
+   - `subscriber.url`: The hostname or IP address of the market data server.
+   - `subscriber.port`: The port to connect to on the server.
+   - `subscriber.username`: The username for authentication.
+   - `subscriber.password`: The password for authentication.
+   - `retry.maxAttempts`: The maximum number of reconnection attempts. Use `-1` for unlimited retries.
+   - `retry.intervalMillis`: The interval (in milliseconds) between reconnection attempts. For example, `1000`. 
+   - `ssl.keyStoreFileName`: The name of the keystore file to use, should include extension if any.
+   - `ssl.trustStoreFileName`: The name of the truststore file to use, should include extension if any.
+   - `ssl.keyStorePassword`: The password for the keystore. It is recommended to provide this password via an environment variable for security.
+   - `ssl.trustStorePassword`: The password for the truststore. Like the keystore password, this should also be provided via an environment variable for security.
+
+3. Configure market data listener callbacks
 
    ```java
    public class MarketDataListener implements MarketDataCallback {   
@@ -41,18 +56,16 @@ This is a sample application of using trc-market-data-client-sdk
    }
    ```
 
-2. Implement connection listener
+4. Configure connection listener callbacks
 
    ```java
    public class ConnectionListener implements ConnectionCallback {
        @Override
        public void onConnect(MarketDataSubscriber marketDataSubscriber) {
-
        }
 
        @Override
        public void onReconnect(MarketDataSubscriber marketDataSubscriber) {
-
        }
 
        @Override
@@ -69,114 +82,66 @@ This is a sample application of using trc-market-data-client-sdk
    }
    ```
 
-3. Subscribe for currency pairs/authorized equities in "onConnect" callback
+5. Configure currency pairs/equities to subscribe to under "onConnect" callback
    ```java
    public class ConnectionListener implements ConnectionCallback {
      @Override
      public void onConnect(MarketDataSubscriber marketDataSubscriber) {
         System.out.println("OnConnect");
-        //To subscribe for single tier pricing use following API
         MarketDataListener marketDataListener = new MarketDataListener();
-        marketDataSubscriber.subscribeFx("CHFJPY", marketDataListener);
-        marketDataSubscriber.subscribeEquity("SAWAD", "JPY", marketDataListener);
-        marketDataSubscriber.subscribeEquity("OSP", "GBP", marketDataListener);
+   
+        //To subscribe for single tier pricing use following API
+        marketDataSubscriber.subscribeFx("USDJPY", marketDataListener);
    
         // To subscribe for tiered pricing use following API
         marketDataSubscriber.subscribeFx("CHFJPY", SubscriptionType.TIERED_TOB, marketDataListener);
+   
+        // To subscribe for blended/unblended equities use following API
+        marketDataSubscriber.subscribeEquity("AAPL", "JPY", marketDataListener);
      }
    }
    ```
+   ### Authorized currency pairs for streaming
 
-4. Create subscriber
+   - To get streaming of currency pairs, users need to be authorized on the TRC side to be granted access to those currency pairs.
+   - The availability of currency streaming depends on market open/close status.
 
+    ### Authorized equities for streaming
+
+   - To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
+   - The availability of equity streaming depends on market open/close status.
+
+6. Create subscriber
    ```
    MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createSubscriber();
    ```
-   > For GeneratedFxData subscription use  
-   > MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createGeneratedDataSubscriber();
-
-5. Update trustStorePath path with client.trustStore path
+   For GeneratedFxData subscription use
    ```
-   String trustStorePath = "app/src/main/resources/client.truststore";
-   ```   
-
-6. Connect
+   MarketDataSubscriber subscriber = MarketDataSubscriberFactory.createGeneratedDataSubscriber();
    ```
-   SslConfig sslConfig = new SslConfig(null, null, trustStorePath, "gxw9dck*czu5XQW8azp");
 
-   RetryConfig retryConfig = RetryConfig.builder().maxAttempts(-1).intervalMillis(5000).build());
-   // -1 (or any non positive number) to try forever
-   // OR RetryConfig retryConfig = RetryConfig.DISABLED; to disable */
-   
-   SubscriberConfig subscriberConfig = SubscriberConfig.builder().sslConfig(sslConfig).retryConfig(retryConfig).build();
-   
-   subscriber.connect("13.250.15.157", 56100, "test-user", "test-pw", subscriberConfig, connectionListener);
+7. Connect
+   ```
+   subscriber.connect(<TARGET_URL>, <PORT>, <USERNAME>, <PASSWORD>, subscriberConfig, connectionListener);
    ```
    > Since this is a test client username and password will be ignored.
-7. Listen for data
+8. Listen for data
    ```
     Received FX Data :FxInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:46:19.940Z, instrumentId=USDJPY, symbol=USD/JPY, askPricePoint=PricePoint(price=143.459, quantity=100000.0), bidPricePoint=PricePoint(price=143.48, quantity=100000.0)), tenor=SPOT)
     Received equity Data :EquityInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:45:52.722Z, instrumentId=V03.SI, symbol=V03.SI, askPricePoint=PricePoint(price=2414.17, quantity=null), bidPricePoint=PricePoint(price=2410.81, quantity=null)), subscriberCcy=JPY)
     Received Tiered FX Data :TieredFxInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2025-01-13T10:25:02.460Z, instrumentId=USDJPY, symbol=USD/JPY, askTiers=[PricePoint(price=157.270000, quantity=1000000.0), PricePoint(price=157.272000, quantity=3000000.0), PricePoint(price=157.274000, quantity=5000000.0)], bidTiers=[PricePoint(price=157.267000, quantity=1000000.0), PricePoint(price=157.265000, quantity=3000000.0), PricePoint(price=157.260000, quantity=5000000.0)], tenor=SPOT, fxSnapshotType=TRADABLE)
    ```
-
-### Supported currency pairs
-
-- GBPJPY
-- CHFJPY
-- AUDJPY
-- CADJPY
-- NZDJPY
-- SGDJPY
-- EURJPY
-- CNHJPY
-- HKDJPY
-- USDJPY
-- THBJPY
-
-### Authorized equities for streaming
-
-- To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
-- The availability of equity streaming depends on market open/close status.
+9. Disconnect, will unsubscribe all previous subscriptions
+    ```
+   subscriber.disconnect();
+   ```
 
 <br/><br/>
 
-### Setting up a Keystore and a truststore
-#### 1. Generating the Private Key
-Replace the placeholder values with actual values that match your requirements. Make sure to note down the password; you will need it when configuring the SDK.
-```
-keytool -genkeypair -alias <YourAlias> -keyalg RSA -keysize 2048 -keystore <YourKeystoreName>.jks -dname "CN=<ClientName>, OU=<Department>, O=<Organization>, L=<City>, ST=<State>, C=<Country>"
-```
-
-#### 2. Create the CSR (Certificate Signing Request)
-Generate the CSR and send the resulting CSR file to us. Once we've signed the request, we will send back the signed certificate. This will allow communication with our servers.
-```
-keytool -certreq -alias <YourAlias> -keystore <YourKeystoreName>.jks -file <YourCSRName>.csr
-```
-
-#### 3. Import the Signed Certificate into the Keystore
-Import the signed certificate, which we provided, into the keystore you created in the first step.
-```
-keytool -importcert -alias <YourAlias> -keystore <YourKeystoreName>.jks -file <ReceivedSignedCertificate>.crt
-```
-
-#### 4. Set up the truststore
-You'll need to configure a truststore containing our gateway's public certificate. We might either share the public certificate with you or provide an already generated truststore containing the public certificate.
-
-##### A. If we provide you with the server certificate
-Import this certificate into your truststore. Again, remember to note down the password; you'll need it when configuring the SDK.
-```
-keytool -importcert -alias <ServerAlias> -keystore <TruststoreName>.jks -file <ServerCertificateName>.crt
-```
-
-##### B. If we provide you with the truststore
-Use it directly, using the password we provide.
-
-<br/>
-
 ### Changelog
-#### Version 1.17.0
+#### Version 1.16.0
 * **Added**:
+    * Support for centralized configuration setup.
     * Support to subscribe/unsubscribe to tiered FX data
 #### Version 1.7.0
 * **Added**:
