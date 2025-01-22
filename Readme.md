@@ -1,11 +1,33 @@
 ## Sample Application for trc-market-data-client-sdk
 
-This is a sample application of using trc-market-data-client-sdk
-
 ### Dependencies
 
 1. java 11 sdk
-2. trc-market-data-client-sdk
+2. Correct SSL keystore and truststore certificate files should already available in resources folder - please speak our site reliability team 
+3. SDK will be preconfigured for the necessary instruments which you require us to stream data for. Please mention your requirements to site reliability team. SDK has capability to stream prices for various asset classes based on your requirement and is not just limited to an FX stream
+
+### How to stream prices:
+Simply download and extract in your application environment, build and execute App.java file available under:
+`trc-md-starter/app/src/main/java/`
+
+### Supported FX currency pairs Sample
+
+- GBPJPY
+- CHFJPY
+- AUDJPY
+- CADJPY
+- NZDJPY
+- SGDJPY
+- EURJPY
+- CNHJPY
+- HKDJPY
+- USDJPY
+- THBJPY
+
+### Authorized equities for streaming
+
+- To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
+- The availability of equity streaming depends on market open/close status.
 
 ### Subscribing to market data
 
@@ -101,15 +123,6 @@ This is a sample application of using trc-market-data-client-sdk
      }
    }
    ```
-   ### Authorized currency pairs for streaming
-
-   - To get streaming of currency pairs, users need to be authorized on the TRC side to be granted access to those currency pairs.
-   - The availability of currency streaming depends on market open/close status.
-
-    ### Authorized equities for streaming
-
-   - To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
-   - The availability of equity streaming depends on market open/close status.
 
 6. Create subscriber
    ```
