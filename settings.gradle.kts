@@ -9,4 +9,3 @@
 
 rootProject.name = "trc-md-starter"
 include("app")
-include("buildDist")

@@ -15,17 +15,17 @@ variables:
   SCANTIST_REPO_NAME: 'trc-md-starter'
 
 stages:
-  - build
+#  - build
   - scantist
-  - publish
+#  - publish
   - sync_to_github
 
-build:
-  stage: build
-  only:
-    - merge_requests
-  script:
-    - ./gradlew clean build
+#build:
+#  stage: build
+#  only:
+#    - merge_requests
+#  script:
+#    - ./gradlew clean build
 
 scantist:
   stage: scantist
@@ -44,17 +44,17 @@ scantist:
     - echo $scantistCommand | bash
   allow_failure: true
 
-publish:
-  stage: publish
-  only:
-    - master
-    - tags
-  script:
-    - ./gradlew clean build
-    - ./gradlew buildDist:packageDistribution
-  artifacts:
-    paths:
-      - build/*.zip
+#publish:
+#  stage: publish
+#  only:
+#    - master
+#    - tags
+#  script:
+#    - ./gradlew clean build
+#    - ./gradlew buildDist:packageDistribution
+#  artifacts:
+#    paths:
+#      - build/*.zip
 
 sync_to_github:
   image: registry.m-daq.com/mdaq-docker-java11-helm-kubectl-gradle7
