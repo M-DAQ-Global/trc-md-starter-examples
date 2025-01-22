@@ -7,8 +7,11 @@
 3. SDK will be preconfigured for the necessary instruments which you require us to stream data for. Please mention your requirements to site reliability team. SDK has capability to stream prices for various asset classes based on your requirement and is not just limited to an FX stream
 
 ### How to stream prices:
-Simply download and extract in your application environment, build and execute App.java file available under:
-`trc-md-starter/app/src/main/java/`
+1. Download and extract in your application environment.
+2. Obtain SSL keystore and truststore files and place them under `trc-md-starter/app/src/main/resources`.
+3. Configure necessary properties`config.properties` under: `trc-md-starter/app/src/main/resources` (Refer to section below for detailed instructions and explanations on different properties available).
+4. Build the application.
+5. Execute `App.java` file available under: `trc-md-starter/app/src/main/java/`.
 
 ### Supported FX currency pairs Sample
 
