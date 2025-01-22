@@ -121,6 +121,9 @@
         // To subscribe for tiered pricing use following API
         marketDataSubscriber.subscribeFx("CHFJPY", SubscriptionType.TIERED_TOB, marketDataListener);
    
+        // To subscribe for a particular tenor use following API
+        marketDataSubscriber.subscribeFx("CHFJPY", SubscriptionType.TIERED_TOB, Tenor.SPOT, marketDataListener);
+   
         // To subscribe for blended/unblended equities use following API
         marketDataSubscriber.subscribeEquity("AAPL", "JPY", marketDataListener);
      }
