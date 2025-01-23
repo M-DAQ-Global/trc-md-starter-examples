@@ -32,7 +32,7 @@
 - To get streaming of equities, users need to be authorized on the TRC side to be granted access to those equities.
 - The availability of equity streaming depends on market open/close status.
 
-### Subscribing to market data
+### Customizing subscriptions on market data stream
 
 1. Obtain valid SSL keystore and truststore files from MDAQ TRC and place those files under the directory 
    - `trc-md-starter/app/src/main/resources`
@@ -46,8 +46,8 @@
    - `retry.intervalMillis`: The interval (in milliseconds) between reconnection attempts. For example, `1000`. 
    - `ssl.keyStoreFileName`: The name of the keystore file to use, should include extension if any.
    - `ssl.trustStoreFileName`: The name of the truststore file to use, should include extension if any.
-   - `ssl.keyStorePassword`: The password for the keystore. It is recommended to provide this password via an environment variable for security.
-   - `ssl.trustStorePassword`: The password for the truststore. Like the keystore password, this should also be provided via an environment variable for security.
+   - `ssl.keyStorePassword`: The password for the keystore.
+   - `ssl.trustStorePassword`: The password for the truststore.
 
 3. Configure market data listener callbacks
 
@@ -143,7 +143,6 @@
    ```
    subscriber.connect(<TARGET_URL>, <PORT>, <USERNAME>, <PASSWORD>, subscriberConfig, connectionListener);
    ```
-   > Since this is a test client username and password will be ignored.
 8. Listen for data
    ```
     Received FX Data :FxInstrumentSnapshot(super=GenericInstrumentSnapshot(super=VersionedGenericMessage(version=1.0.0.1), timestamp=2023-12-20T07:46:19.940Z, instrumentId=USDJPY, symbol=USD/JPY, askPricePoint=PricePoint(price=143.459, quantity=100000.0), bidPricePoint=PricePoint(price=143.48, quantity=100000.0)), tenor=SPOT)
