@@ -70,8 +70,8 @@ sync_to_github:
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - git config --global user.email "mdaq-techops-admin@m-daq.com"
     - git config --global user.name "mdaq-techops-admin"
-    - git checkout master
+    - git checkout $CI_COMMIT_REF_NAME
     - git rm --cached .gitlab-ci.yml
     - git commit -m "$CI_COMMIT_MESSAGE" 
     - git remote add github git@github.com:M-DAQ-Global/${CI_PROJECT_NAME}-examples.git
-    - git push github master:main --force
+    - git push github $CI_COMMIT_REF_NAME:main --force
