@@ -74,4 +74,4 @@ sync_to_github:
     - git rm --cached .gitlab-ci.yml
     - git commit -m "$CI_COMMIT_MESSAGE" 
     - git remote add github git@github.com:M-DAQ-Global/${CI_PROJECT_NAME}-examples.git
-    - git push github $CI_COMMIT_REF_NAME:main --force
+    - git push github HEAD:main --force
