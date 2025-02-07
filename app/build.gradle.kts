@@ -14,7 +14,7 @@ repositories {
 version = file("${project.rootDir}/version.txt").readText().trim()
 
 dependencies {
-    implementation("com.mdaq.trc:trc-market-data-client-sdk:${version}")
+    implementation("com.m-daq:trc-market-data-client-sdk:${version}")
     implementation("io.netty:netty-all:4.1.93.Final")
     implementation("org.agrona:agrona:1.18.1")
     implementation("org.slf4j:slf4j-api:1.7.32")
